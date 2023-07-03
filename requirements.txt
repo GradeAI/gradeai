@@ -1,0 +1,8 @@
+python-dotenv
+flask
+flask-cors
+openai
+PyPDF2
+dirtyjson
+gunicorn
+requests
