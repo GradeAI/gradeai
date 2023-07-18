@@ -3,7 +3,7 @@ Welcome to GradeAI, an AI auto-grader built using Python, OpenAI GPT-3.5, Tensor
 
 # Demo Video
 
-[![Demo Video](http://img.youtube.com/vi/RYGEBW2aeRY/0.jpg)](http://www.youtube.com/watch?v=RYGEBW2aeRY)
+[![Demo Video](http://img.youtube.com/vi/ol1-vmbqTZo/0.jpg)](http://www.youtube.com/watch?v=ol1-vmbqTZo)
 
 # Overview
 
