@@ -1,24 +1,5 @@
-# GradeAI-Backend
-Welcome to GradeAI, an AI auto-grader built using Python, OpenAI GPT-3.5, TensorFlow, and Flask. This project was developed as a submission for the HackBytes II 2023 hackathon.
-
-# Demo Video
-
-[![Demo Video](http://img.youtube.com/vi/ol1-vmbqTZo/0.jpg)](http://www.youtube.com/watch?v=ol1-vmbqTZo)
-
-# Overview
-
-GradeAI is an advanced auto-grader that utilizes state-of-the-art technologies to automatically grade assignments and provide feedback. With the power of OpenAI GPT-3.5, TensorFlow, and Flask, GradeAI can analyze and evaluate various types of assignments, including text-based submissions and image-based assignments with OCR (Optical Character Recognition).
-
-# Features
-
-- AI-based auto-grading: GradeAI employs the cutting-edge OpenAI GPT-3.5 model to provide accurate and comprehensive grading for assignments.
-- Text-based grading: GradeAI can analyze text-based submissions and evaluate them based on predefined criteria.
-- Image OCR: With the integration of TensorFlow, GradeAI can extract text from images, making it suitable for grading image-based assignments.
-- Flask backend: The project utilizes Flask, a lightweight web framework, to handle HTTP requests and serve the auto-grading functionality.
-- Easy deployment: GradeAI can be easily deployed on platforms like Vercel or Heroku for seamless integration with web applications.
-
 # Setup Backend
-To set up the backend GradeAI locally, follow these steps:
+To set up the backend locally, follow these steps:
 
 Clone the repository:
 ```bash
@@ -37,11 +18,136 @@ python app.py
 
 Access the back-end in your browser at http://localhost:5000.
 
-# Front-end
+## **Endpoint: /image**
 
-To set up the front-end, please follow the instructions at https://github.com/GradeAI/GradeAI-Frontend.
+```rust
 
-# Acknowledgements
+POST /image
 
-- This project was developed as part of the HackBytes II 2023 hackathon.
-- We would like to thank the contributors and maintainers of the Python, OpenAI, TensorFlow, and Flask projects for their valuable tools and frameworks.
+Uses OCR to retrieve text from an image file
+
+Parameters:
+- file: The image file to extract text from (multipart/form-data).
+
+Returns:
+The extracted text from the PDF file.
+```
+
+**Example Request:**
+```rust
+
+POST /image
+Content-Type: multipart/form-data
+
+file: <file attachment>
+```
+
+**Example Response:**
+```http
+
+HTTP/1.1 200 OK
+Content-Type: text/plain
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique mauris vel nibh...
+```
+
+## **Endpoint: /pdf**
+
+```rust
+
+POST /pdf
+
+Extracts text from a single PDF file.
+
+Parameters:
+- file: The PDF file to extract text from (multipart/form-data).
+
+Returns:
+The extracted text from the PDF file.
+```
+
+**Example Request:**
+```rust
+
+POST /pdf
+Content-Type: multipart/form-data
+
+file: <file attachment>
+```
+
+**Example Response:**
+```http
+
+HTTP/1.1 200 OK
+Content-Type: text/plain
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique mauris vel nibh...
+```
+
+## **Endpoint: /query_essay**
+```rust
+POST /query_essay
+
+Assess a student's essay and provide graded points, levels, and feedback.
+
+Parameters:
+- course_information (str): Course name and grade.
+- rubric (str): The rubric for grading the essay.
+- assignment_instructions (str): Instructions for the assignment.
+- essay (str): The student's essay.
+
+Returns:
+A JSON response containing graded points, levels, feedback, and overall grade. The response is in the following format:
+[
+    {
+        "Criteria": "...",
+        "Level": "4",
+        "Feedback": "Student must..."
+    },
+    {
+        "Grade": "B",
+        "Percentage": "75%"
+    }
+]
+
+Each individual criterion is represented by a Criteria object, and the Grade represents the overall assignment grade.
+```
+
+**Example Request:**
+```json
+
+POST /query_essay
+Content-Type: application/json
+
+{
+    "course_information": "Grade 12 English AP",
+    "rubric": "<table>...</table>",
+    "assignment_instructions": "Write a persuasive essay on the importance of reading.",
+    "essay": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+}
+```
+
+**Example Response:**
+```json
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+[
+    {
+        "Criteria": "Introduction",
+        "Level": "4",
+        "Feedback": "The introduction effectively engages the reader and clearly presents the main argument."
+    },
+    {
+        "Criteria": "Organization",
+        "Level": "3",
+        "Feedback": "The essay is generally well-organized, but some paragraphs could be more logically structured."
+    },
+    ...
+    {
+        "Grade": "B",
+        "Percentage": "75%"
+    }
+]
+```
